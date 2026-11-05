@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8e9">
+  <title>Hello Pet World | Meet your new best friend</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #25332d;
+      --muted: #64736a;
+      --paper: #fffaf0;
+      --white: #fffefa;
+      --green: #27745a;
+      --green-dark: #1c5944;
+      --coral: #e76d57;
+      --yellow: #f3c64e;
+      --blue: #a9dce2;
+      --line: #e7e4d7;
+      --shadow: 0 12px 30px rgb(52 64 48 / 9%);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible, dialog:focus-visible {
+      outline: 3px solid #176a9b;
+      outline-offset: 3px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1180px;
+      min-height: 76px;
+      margin: 0 auto;
+      padding: 14px 28px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; }
+    .brand-mark { display: block; flex: 0 0 42px; width: 42px; height: 42px; }
+    .brand-name { font-size: 1.05rem; letter-spacing: 0; }
+    .favorite-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1px solid #f1d8d0;
+      border-radius: 999px;
+      background: #fff3ef;
+      color: #753b32;
+      font-size: .92rem;
+      font-weight: 800;
+    }
+    .favorite-count .heart { color: var(--coral); font-size: 1.1rem; }
+
+    .hero {
+      overflow: hidden;
+      background-color: #d7eee6;
+      background-image: radial-gradient(circle at 8% 23%, rgb(255 255 255 / 55%) 0 4px, transparent 5px),
+        radial-gradient(circle at 91% 70%, rgb(255 255 255 / 45%) 0 6px, transparent 7px);
+      border-block: 1px solid #c5e1d6;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      max-width: 1124px;
+      min-height: 234px;
+      margin: 0 auto;
+      padding: 34px 28px;
+    }
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--green-dark);
+      font-size: .76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 700px;
+      margin-bottom: 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.35rem, 5vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+    .hero-copy { max-width: 590px; margin-bottom: 0; color: #465d50; line-height: 1.6; }
+    .hero-art {
+      display: grid;
+      place-items: center;
+      width: 156px;
+      aspect-ratio: 1;
+      border: 3px solid rgb(255 255 255 / 75%);
+      border-radius: 50%;
+      background: #f6d970;
+      box-shadow: 0 8px 0 rgb(68 111 88 / 12%);
+      font-size: 5rem;
+      transform: rotate(4deg);
+    }
+
+    main { max-width: 1180px; margin: 0 auto; padding: 34px 28px 64px; }
+    .recommendation {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 20px;
+      min-height: 112px;
+      margin-bottom: 34px;
+      padding: 20px 24px;
+      border: 1px solid #f0dfab;
+      border-radius: 12px;
+      background: #fff4cf;
+    }
+    .recommendation h2 { margin-bottom: 5px; font-size: 1.15rem; }
+    .recommendation p { margin-bottom: 0; color: #625a3e; line-height: 1.5; }
+    .recommendation-result { margin-top: 8px !important; color: var(--green-dark) !important; font-weight: 800; }
+    .recommendation-result button {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--green-dark);
+      font: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .primary-button {
+      min-height: 46px;
+      padding: 11px 17px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--green);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 140ms ease, transform 140ms ease;
+    }
+    .primary-button:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .primary-button:active { transform: translateY(0); }
+
+    .collection-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+    .collection-head h2 {
+      margin-bottom: 4px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.8rem;
+      letter-spacing: 0;
+    }
+    .collection-head p { margin: 0; color: var(--muted); }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-button {
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 1px solid #dcded3;
+      border-radius: 999px;
+      background: var(--white);
+      color: #46534b;
+      font-size: .9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .filter-button[aria-pressed="true"] { border-color: var(--green); background: var(--green); color: white; }
+
+    .pet-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .pet-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--white);
+      box-shadow: 0 3px 12px rgb(52 64 48 / 4%);
+      transition: box-shadow 160ms ease, transform 160ms ease;
+    }
+    .pet-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .pet-card[hidden] { display: none; }
+    .pet-card-top { position: relative; padding: 14px 14px 0; }
+    .pet-open {
+      display: grid;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+    .pet-portrait {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 164px;
+      border-radius: 8px;
+      font-size: 5rem;
+      line-height: 1;
+    }
+    .tone-peach { background: #ffe0ce; }
+    .tone-lilac { background: #e6ddfa; }
+    .tone-sky { background: #d7edf0; }
+    .tone-lemon { background: #f9edb7; }
+    .tone-rose { background: #f7dce2; }
+    .tone-mint { background: #d8ebd3; }
+    .pet-info { padding: 14px 16px 16px; }
+    .pet-info .pet-name { display: block; margin-bottom: 4px; font-family: Georgia, "Times New Roman", serif; font-size: 1.35rem; font-weight: 900; }
+    .pet-meta { margin: 0; color: var(--muted); font-size: .92rem; }
+    .pet-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+    .pet-tag { color: var(--green-dark); font-size: .8rem; font-weight: 900; }
+    .favorite-button {
+      display: grid;
+      flex: 0 0 42px;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #f0d7d1;
+      border-radius: 50%;
+      background: #fff6f3;
+      color: #a64b3c;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+    .favorite-button[aria-pressed="true"] { border-color: #eaa394; background: #ffe2dc; color: #b83c2b; }
+    .empty-state { grid-column: 1 / -1; padding: 34px 16px; color: var(--muted); text-align: center; }
+
+    dialog {
+      width: min(500px, calc(100% - 32px));
+      max-height: min(88vh, 760px);
+      padding: 0;
+      overflow: auto;
+      border: 1px solid #d9ded3;
+      border-radius: 14px;
+      background: var(--white);
+      color: var(--ink);
+      box-shadow: 0 24px 80px rgb(27 43 34 / 28%);
+    }
+    dialog::backdrop { background: rgb(31 47 37 / 54%); backdrop-filter: blur(2px); }
+    .dialog-inner { padding: 18px 22px 24px; }
+    .dialog-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .dialog-label { margin: 0; color: var(--green-dark); font-size: .78rem; font-weight: 900; text-transform: uppercase; }
+    .close-button {
+      display: grid;
+      flex: 0 0 42px;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--ink);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .dialog-portrait { display: grid; place-items: center; min-height: 190px; border-radius: 9px; font-size: 6rem; }
+    .dialog-inner h2 { margin: 17px 0 4px; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; letter-spacing: 0; }
+    .dialog-subtitle { margin-bottom: 18px; color: var(--muted); }
+    .detail-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0 0 20px; }
+    .detail-list div { padding-top: 10px; border-top: 1px solid var(--line); }
+    .detail-list dt { margin-bottom: 4px; color: var(--muted); font-size: .8rem; font-weight: 800; }
+    .detail-list dd { margin: 0; font-weight: 700; line-height: 1.4; }
+    .dialog-actions { display: flex; justify-content: flex-end; }
+
+    @media (max-width: 760px) {
+      .hero-inner { min-height: 210px; }
+      .hero-art { width: 118px; font-size: 3.8rem; }
+      .pet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .collection-head { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 520px) {
+      .topbar { min-height: 64px; padding: 12px 18px; }
+      main { padding: 25px 18px 44px; }
+      .hero-inner { grid-template-columns: minmax(0, 1fr) 76px; gap: 12px; padding: 26px 18px; }
+      .hero-art { width: 76px; border-width: 2px; font-size: 2.7rem; }
+      .hero-copy { font-size: .95rem; }
+      .recommendation { grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+      .recommendation .primary-button { justify-self: start; }
+      .pet-grid { gap: 12px; }
+      .pet-card-top { padding: 9px 9px 0; }
+      .pet-portrait { min-height: 124px; font-size: 3.8rem; }
+      .pet-info { padding: 11px 11px 13px; }
+      .pet-info .pet-name { font-size: 1.15rem; }
+      .pet-meta { font-size: .82rem; }
+      .pet-card-bottom { margin-top: 11px; }
+      .pet-tag { font-size: .73rem; }
+      .favorite-button { flex-basis: 38px; width: 38px; height: 38px; }
+      .detail-list { grid-template-columns: 1fr; gap: 10px; }
+      .dialog-inner { padding: 14px 16px 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-label="Hello Pet World home">
+      <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle cx="24" cy="24" r="23" fill="#f3c64e" />
+        <ellipse cx="13.5" cy="20" rx="4" ry="5" transform="rotate(-22 13.5 20)" fill="#e76d57" />
+        <ellipse cx="22" cy="13.5" rx="4" ry="5" transform="rotate(-7 22 13.5)" fill="#27745a" />
+        <ellipse cx="31.5" cy="15.5" rx="4" ry="5" transform="rotate(15 31.5 15.5)" fill="#548fba" />
+        <ellipse cx="36" cy="24" rx="4" ry="5" transform="rotate(27 36 24)" fill="#e76d57" />
+        <path d="M24 38c-1.5-1.1-9-5.7-9-11 0-4.8 6.2-6.8 9-2.1 2.8-4.7 9-2.7 9 2.1 0 5.3-7.5 9.9-9 11Z" fill="#27745a" />
+      </svg>
+      <span class="brand-name">Hello Pet World</span>
+    </div>
+    <div class="favorite-count" aria-live="polite" aria-atomic="true">
+      <span class="heart" aria-hidden="true">♥</span>
+      <span><span id="favorite-count">0</span> favourites</span>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">A little hello goes a long way</p>
+        <h1 id="page-title">Big personalities.<br>Very small paws.</h1>
+        <p class="hero-copy">Meet six one-of-a-kind friends, find out what makes them tick, and save the ones who make your heart go thump.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">🐶</div>
+    </div>
+  </section>
+
+  <main>
+    <section class="recommendation" aria-labelledby="recommendation-title">
+      <div>
+        <h2 id="recommendation-title">Not sure who to meet first?</h2>
+        <p>Let the pet-picker find a new friend for you.</p>
+        <p class="recommendation-result" id="recommendation-result" aria-live="polite"></p>
+      </div>
+      <button class="primary-button" id="recommend-button" type="button">Pick a pet for me</button>
+    </section>
+
+    <section aria-labelledby="collection-title">
+      <div class="collection-head">
+        <div>
+          <h2 id="collection-title">Meet the gang</h2>
+          <p>Six lovely faces, each with a story to tell.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter pets by type">
+          <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All pets</button>
+          <button class="filter-button" type="button" data-filter="dog" aria-pressed="false">Dogs</button>
+          <button class="filter-button" type="button" data-filter="cat" aria-pressed="false">Cats</button>
+        </div>
+      </div>
+      <div class="pet-grid" id="pet-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <dialog id="pet-dialog" aria-labelledby="dialog-name">
+    <div class="dialog-inner" id="dialog-content"></div>
+  </dialog>
+
+  <script>
+    "use strict";
+
+    const pets = [
+      {
+        id: "pippin", name: "Pippin", type: "Dog", breed: "Corgi", age: "2 years old",
+        personality: "A cheerful little helper who believes every visitor is a new best friend.",
+        activity: "Trot along on a neighborhood stroll", emoji: "🐶", tone: "peach"
+      },
+      {
+        id: "maple", name: "Maple", type: "Dog", breed: "Golden Retriever", age: "4 years old",
+        personality: "Gentle, sunny, and always ready to share her favorite spot in the shade.",
+        activity: "Play a leisurely game of fetch", emoji: "🐕", tone: "lemon"
+      },
+      {
+        id: "ziggy", name: "Ziggy", type: "Dog", breed: "Dalmatian", age: "1 year old",
+        personality: "A curious goofball with lots of bounce and a talent for making you laugh.",
+        activity: "Chase bubbles in the garden", emoji: "🐕‍🦺", tone: "sky"
+      },
+      {
+        id: "miso", name: "Miso", type: "Cat", breed: "Calico", age: "3 years old",
+        personality: "A soft-spoken daydreamer who warms up with a slow blink and a quiet hello.",
+        activity: "Watch birds from a sunny windowsill", emoji: "🐈", tone: "lilac"
+      },
+      {
+        id: "juniper", name: "Juniper", type: "Cat", breed: "Maine Coon", age: "5 years old",
+        personality: "A fluffy, friendly explorer who likes being nearby for whatever is happening.",
+        activity: "Investigate a cardboard box", emoji: "🐈‍⬛", tone: "mint"
+      },
+      {
+        id: "orbit", name: "Orbit", type: "Cat", breed: "Tabby", age: "2 years old",
+        personality: "An affectionate little adventurer with a purr that could fill a whole room.",
+        activity: "Pounce on a feather toy", emoji: "😺", tone: "rose"
+      }
+    ];
+
+    const favorites = new Set();
+    const petGrid = document.querySelector("#pet-grid");
+    const favoriteCount = document.querySelector("#favorite-count");
+    const petDialog = document.querySelector("#pet-dialog");
+    const dialogContent = document.querySelector("#dialog-content");
+    const recommendationResult = document.querySelector("#recommendation-result");
+    let activeFilter = "all";
+
+    function renderPets() {
+      const visiblePets = pets.filter((pet) => {
+        return activeFilter === "all" || pet.type.toLowerCase() === activeFilter;
+      });
+
+      petGrid.innerHTML = visiblePets.map((pet) => {
+        const isFavorite = favorites.has(pet.id);
+        return `
+          <article class="pet-card">
+            <div class="pet-card-top">
+              <button class="pet-open" type="button" data-open="${pet.id}" aria-label="View details for ${pet.name}">
+                <span class="pet-portrait tone-${pet.tone}" aria-hidden="true">${pet.emoji}</span>
+                <span class="pet-info">
+                  <span class="pet-name" role="heading" aria-level="3">${pet.name}</span>
+                  <span class="pet-meta">${pet.breed} · ${pet.age}</span>
+                </span>
+              </button>
+              <div class="pet-card-bottom">
+                <span class="pet-tag">${pet.type}</span>
+                <button class="favorite-button" type="button" data-favorite="${pet.id}" aria-label="${isFavorite ? "Remove" : "Add"} ${pet.name} ${isFavorite ? "from" : "to"} favourites" aria-pressed="${isFavorite}">${isFavorite ? "♥" : "♡"}</button>
+              </div>
+            </div>
+          </article>`;
+      }).join("");
+
+      if (visiblePets.length === 0) {
+        petGrid.innerHTML = '<p class="empty-state">No pets to show just now.</p>';
+      }
+    }
+
+    function updateFavorites() {
+      favoriteCount.textContent = String(favorites.size);
+      renderPets();
+    }
+
+    function showPetDetails(pet) {
+      dialogContent.innerHTML = `
+        <div class="dialog-top">
+          <p class="dialog-label">Meet your new friend</p>
+          <button class="close-button" type="button" data-close aria-label="Close pet details">×</button>
+        </div>
+        <div class="dialog-portrait tone-${pet.tone}" role="img" aria-label="Cartoon ${pet.type.toLowerCase()} ${pet.name}">${pet.emoji}</div>
+        <h2 id="dialog-name">${pet.name}</h2>
+        <p class="dialog-subtitle">${pet.breed} · ${pet.age} · ${pet.type}</p>
+        <dl class="detail-list">
+          <div><dt>Personality</dt><dd>${pet.personality}</dd></div>
+          <div><dt>Favourite activity</dt><dd>${pet.activity}</dd></div>
+          <div><dt>Breed</dt><dd>${pet.breed}</dd></div>
+          <div><dt>Age</dt><dd>${pet.age}</dd></div>
+        </dl>
+        <div class="dialog-actions">
+          <button class="primary-button" type="button" data-dialog-favorite="${pet.id}">${favorites.has(pet.id) ? "♥ Remove favourite" : "♡ Add to favourites"}</button>
+        </div>`;
+      petDialog.showModal();
+      dialogContent.querySelector("[data-close]").focus();
+    }
+
+    document.querySelector(".filters").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-filter]");
+      if (!button) return;
+      activeFilter = button.dataset.filter;
+      document.querySelectorAll("[data-filter]").forEach((filterButton) => {
+        filterButton.setAttribute("aria-pressed", String(filterButton === button));
+      });
+      renderPets();
+    });
+
+    petGrid.addEventListener("click", (event) => {
+      const favoriteButton = event.target.closest("[data-favorite]");
+      if (favoriteButton) {
+        const petId = favoriteButton.dataset.favorite;
+        favorites.has(petId) ? favorites.delete(petId) : favorites.add(petId);
+        updateFavorites();
+        return;
+      }
+
+      const openButton = event.target.closest("[data-open]");
+      if (openButton) {
+        const pet = pets.find((item) => item.id === openButton.dataset.open);
+        if (pet) showPetDetails(pet);
+      }
+    });
+
+    document.querySelector("#recommend-button").addEventListener("click", () => {
+      const pet = pets[Math.floor(Math.random() * pets.length)];
+      recommendationResult.innerHTML = `Your new pal could be <button type="button" data-recommended="${pet.id}">${pet.name}</button>!`;
+    });
+
+    recommendationResult.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-recommended]");
+      if (!button) return;
+      const pet = pets.find((item) => item.id === button.dataset.recommended);
+      if (pet) showPetDetails(pet);
+    });
+
+    dialogContent.addEventListener("click", (event) => {
+      if (event.target.closest("[data-close]")) {
+        petDialog.close();
+        return;
+      }
+
+      const favoriteButton = event.target.closest("[data-dialog-favorite]");
+      if (!favoriteButton) return;
+      const petId = favoriteButton.dataset.dialogFavorite;
+      favorites.has(petId) ? favorites.delete(petId) : favorites.add(petId);
+      updateFavorites();
+      const pet = pets.find((item) => item.id === petId);
+      if (pet) showPetDetails(pet);
+    });
+
+    petDialog.addEventListener("click", (event) => {
+      if (event.target === petDialog) petDialog.close();
+    });
+
+    renderPets();
+  </script>
+</body>
+</html>
